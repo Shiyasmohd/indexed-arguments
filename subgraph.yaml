@@ -1,0 +1,32 @@
+specVersion: 1.2.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: MyToken
+    network: sepolia
+    source:
+      address: "0x63b86660feD322fD965852c31dBde3242D65D032"
+      abi: MyToken
+      startBlock: 5505172
+      endBlock: 5566000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Transfer
+      abis:
+        - name: MyToken
+          file: ./abis/MyToken.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          topic2:
+            [
+              "0xda107f6b7a0e495ddcd9b145f55df000142e0b67",
+              "0x0e86a0def93f3a9265be1681ce98bebb404c44cf",
+            ]
+          handler: handleTransfer
+      file: ./src/my-token.ts
